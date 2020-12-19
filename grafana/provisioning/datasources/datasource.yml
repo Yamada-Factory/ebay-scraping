@@ -1,0 +1,24 @@
+apiVersion: 1
+
+datasources:
+  - name: influxdb
+    type: influxdb
+    orgId: 1
+    url: http://influxdb:8086
+    user: root
+    password: root
+    database: ebay
+    isDefault: false
+    editable: true
+    version: 1
+
+  - name: mariadb
+    type: mysql
+    orgId: 1
+    url: sqldb:3306
+    user: root
+    password: root
+    database: ebay
+    isDefault: false
+    editable: true
+    version: 

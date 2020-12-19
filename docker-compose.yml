@@ -1,18 +1,37 @@
 version: '3.3'
 services:
-  db:
+  sqldb:
+    image: mariadb
+    volumes:
+        - ./mariadb/initdb.d:/docker-entrypoint-initdb.d
+        # - ./mariadb/data:/var/lib/mysql
+    ports:
+      - "3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+
+  influxdb:
     image: influxdb:1.7.10-alpine
     volumes:
-      - ./influxdb:/var/lib/influxdb
+      - ./influxdb/initdb.d:/docker-entrypoint-initdb.d
+      # - ./influxdb/data:/var/lib/influxdb
     ports:
-      - "8086:8086"
+      - "8086"
 
   grafana:
     image: grafana/grafana
     user: "$UID:$GID"
     volumes:
-      - ./grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/data:/var/lib/grafana
     ports:
-      - "3000:3000"
+      - "3000"
+    depends_on:
+      - influxdb
+      - sqldb
+
   scraper:
     build: scraper
+    depends_on:
+      - sqldb
+      - influxdb
