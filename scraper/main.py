@@ -39,7 +39,10 @@ def get_data(keyword):
         except AttributeError:
             continue
 
-        price = int(PRICE_PETTERN.search(price).group().replace(',', ''))
+        try:
+            price = int(PRICE_PETTERN.search(price).group().replace(',', ''))
+        except TypeError:
+            continue
         try:
             shipping = int(PRICE_PETTERN.search(shipping).group().replace(',', ''))
         except AttributeError:
