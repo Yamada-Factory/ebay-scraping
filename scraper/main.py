@@ -9,15 +9,16 @@ import re
 
 sqldb = pymysql.connect(user = 'root', password = 'root', db = 'ebay', host = 'sqldb', port=3306)
 print('connected sqldb')
-cursor = sqldb.cursor()
 
 db = influxdb.InfluxDBClient(host='influxdb', port=8086, username='root', password='root', database='ebay')
 print('connected influxdb')
 
 
 def get_keywords():
-    cursor.execute("SELECT word FROM items WHERE word != ''")
-    result = cursor.fetchall()
+    with sqldb.cursor() as cursor:
+        cursor.execute("SELECT word FROM items WHERE word != ''")
+        result = cursor.fetchall()
+        sqldb.commit()
     return result
 
 
