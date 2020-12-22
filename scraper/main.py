@@ -76,7 +76,6 @@ print('start')
 while True:
     points = []
 
-    print(get_keywards())
     for keyword in get_keywords():
         data = get_data(keyword[0])
         points.append(data)
