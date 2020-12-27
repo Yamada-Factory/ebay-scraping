@@ -33,6 +33,9 @@ def get_data(keyword):
     for item in items:
         url = item.select_one('.s-item__link').get('href')
         name = item.select_one('.s-item__title').string
+        if name == None:
+            name = list(item.select_one('.s-item__title').children)[1].string
+
         price = item.select_one('.s-item__price').string
         try:
             shipping = item.select_one('.s-item__logisticsCost').string
