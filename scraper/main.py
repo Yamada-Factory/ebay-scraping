@@ -24,8 +24,9 @@ while True:
     points = []
 
     for keyword in get_keywords():
+        keyword = keyword[0]
         print(f'search word: {keyword}')
-        price_data = get_data(keyword[0])
+        price_data = get_data(keyword)
         data = {
             'measurement': 'price',
             'tags': {
