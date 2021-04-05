@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   sqldb:
-    image: mariadb
+    image: mariadb:10.5.9-focal
     volumes:
         - ./mariadb/initdb.d:/docker-entrypoint-initdb.d
         # - ./mariadb/data:/var/lib/mysql
@@ -9,13 +9,15 @@ services:
       - MYSQL_ROOT_PASSWORD=root
 
   influxdb:
-    image: influxdb:1.7.10-alpine
+    image: influxdb:1.8.4-alpine
     volumes:
       - ./influxdb/initdb.d:/docker-entrypoint-initdb.d
+      - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf
       # - ./influxdb/data:/var/lib/influxdb
+    command: -config /etc/influxdb/influxdb.conf
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:7.5.2
     user: "$UID:$GID"
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
