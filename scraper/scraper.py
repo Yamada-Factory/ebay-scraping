@@ -5,7 +5,11 @@ from bs4 import BeautifulSoup
 PRICE_PETTERN = re.compile('\d{1,3}(,\d{3})*')
 
 def get_data(keyword):
-    html = requests.get(f'https://www.ebay.com/sch/i.html?_nkw={keyword}&_sop=12').text
+    try:
+        html = requests.get(f'https://www.ebay.com/sch/i.html?_nkw={keyword}&_sop=12').text
+    except requests.exceptions.ConnectionError:
+        print('connection error')
+        return
     soup = BeautifulSoup(html, 'html.parser')
 
     price_data_list = []
@@ -40,7 +44,11 @@ def get_data(keyword):
         data = (price+shipping, price, shipping, name, url)
         price_data_list.append(data)
 
-    lowest = min(price_data_list, key=lambda x: x[0])
+    try:
+        lowest = min(price_data_list, key=lambda x: x[0])
+    except ValueError:
+        print('value error')
+        return
     # lowest = price_data_list[0]
     # print(lowest)
 

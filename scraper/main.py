@@ -36,6 +36,9 @@ while True:
         }
         points.append(data)
 
-    db.write_points(points)
+    try:
+        db.write_points(points)
+    except influxdb.exceptions.InfluxDBClientError:
+        print('influx error', points)
     
     time.sleep(600)
