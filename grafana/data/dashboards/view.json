@@ -537,7 +537,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "current = from(bucket: \"ebay/1_week\")\r\n  |> range(start: -1d)\r\n  |> filter(fn: (r) => r._measurement == \"price\" and (r.name == \"${item}\") and (r._field == \"sum\"))\r\n  |> last()\r\n\r\n  \r\nlast_price = from(bucket: \"ebay/1_week\")\r\n  |> range(start: -1d)\r\n  |> filter(fn: (r) => r._measurement == \"daily.price\" and (r.name == \"${item}\") and (r._field == \"sum\"))\r\n  |> last()\r\n\r\njoin(tables: {current: current, last_price: last_price}, on: [\"name\", \"_field\"])\r\n  |> map(fn: (r) => ({\r\n  \t\t_time: r._time_current,\r\n        _value: r._value_current - r._value_last_price\r\n     })\r\n  )\r\n",
+          "query": "current = from(bucket: \"ebay/1_week\")\r\n  |> range(start: -1d)\r\n  |> filter(fn: (r) => r._measurement == \"price\" and (r.name == \"${item}\") and (r._field == \"sum\"))\r\n  |> last()\r\n\r\n  \r\nlast_price = from(bucket: \"ebay/1_week\")\r\n  |> range(start: -2d)\r\n  |> filter(fn: (r) => r._measurement == \"daily.price\" and (r.name == \"${item}\") and (r._field == \"sum\"))\r\n  |> last()\r\n\r\njoin(tables: {current: current, last_price: last_price}, on: [\"name\", \"_field\"])\r\n  |> map(fn: (r) => ({\r\n  \t\t_time: r._time_current,\r\n        _value: r._value_current - r._value_last_price\r\n     })\r\n  )\r\n",
           "queryType": "randomWalk",
           "refId": "A",
           "resultFormat": "time_series",
