@@ -6,7 +6,7 @@ authors = ["Tadaren ptymaato@yahoo.co.jp"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-requests = "^2.25.0"
+requests = "^2.31.0"
 beautifulsoup4 = "^4.9.3"
 influxdb = "^5.3.1"
 PyMySQL = "^0.10.1"
